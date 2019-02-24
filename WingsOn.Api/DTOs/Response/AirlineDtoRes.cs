@@ -1,6 +1,6 @@
 ﻿namespace WingsOn.Api.DTOs.Response
 {
-    public class AirlineDto
+    public class AirlineDtoRes
     {
         public int Id { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using System.Web.Http;
-using WingsOn.Api.DTOs;
+using WingsOn.Api.DTOs.Request;
 using WingsOn.Api.DTOs.Response;
 using WingsOn.Dal;
 using WingsOn.Domain;
@@ -17,9 +17,7 @@ namespace WingsOn.Api.Controllers
         }
 
         // GET api/<controller>/5
-        [HttpGet]
-        [Route("api/people/{id}")]
-        public IHttpActionResult Get(int id)
+        public IHttpActionResult GetPersonById(int id)
         {
             var person = _repo.Get(id);
             if (person == null)
@@ -32,8 +30,7 @@ namespace WingsOn.Api.Controllers
 
         // PATCH api/<controller>/id
         [HttpPatch]
-        [Route("api/people/{id}")]
-        public IHttpActionResult Patch(int id, [FromBody]PersonDto model)
+        public IHttpActionResult PatchPersonEmail(int id, [FromBody]PersonDtoReq model)
         {
             var person = _repo.Get(id);
             if (person == null)
@@ -44,7 +41,7 @@ namespace WingsOn.Api.Controllers
             person.Email = model.Email;
             _repo.Save(person);
 
-            PersonDto response = Mapper.Map<PersonDto>(person);
+            PersonDtoRes response = Mapper.Map<PersonDtoRes>(person);
             return Ok(person);
         }
     }

@@ -1,6 +1,6 @@
 ﻿namespace WingsOn.Api.DTOs.Response
 {
-    public enum GenderTypeDto
+    public enum GenderTypeDtoRes
     {
         Male,
         Female

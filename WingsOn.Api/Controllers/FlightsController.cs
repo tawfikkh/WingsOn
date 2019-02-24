@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using WingsOn.Api.DTOs;
 using WingsOn.Api.DTOs.Response;
 using WingsOn.Dal;
 using WingsOn.Domain;
@@ -21,7 +20,8 @@ namespace WingsOn.Api.Controllers
             _flightRepo = flightRepo;
         }
 
-        [Route("api/flights/{flightNumber}/passengers")]
+        [HttpGet]
+        [Route("{flightNumber}/passengers")]
         public IHttpActionResult GetFlightPassengers(string flightNumber)
         {
             var flight = _flightRepo.GetAll().FirstOrDefault(f => string.Equals(
@@ -43,7 +43,7 @@ namespace WingsOn.Api.Controllers
 
             var passengers = bookings.Select(b => b.Customer);
 
-            IEnumerable<PersonDto> response = Mapper.Map<IEnumerable<PersonDto>>(passengers);
+            IEnumerable<PersonDtoRes> response = Mapper.Map<IEnumerable<PersonDtoRes>>(passengers);
             return Ok(response);
         }
     }

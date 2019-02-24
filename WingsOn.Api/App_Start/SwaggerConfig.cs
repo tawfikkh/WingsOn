@@ -1,20 +1,16 @@
-using Swashbuckle.Application;
-using System.Web.Http;
+using NSwag.AspNet.Owin;
+using Owin;
 
 namespace WingsOn.Api
 {
     public class SwaggerConfig
     {
-        public static void Register(HttpConfiguration config)
+        public static void Register(IAppBuilder appBuilder)
         {
-            config
-                .EnableSwagger(c =>
-                {
-                    c.SingleApiVersion("v1", "WingsOn.Api");
-                    c.DescribeAllEnumsAsStrings();
-                    //c.IncludeXmlComments(string.Format(@"{0}\bin\SwaggerDemoApi.XML", System.AppDomain.CurrentDomain.BaseDirectory));
-                })
-                .EnableSwaggerUi();
+            appBuilder.UseSwaggerUi3(typeof(Startup).Assembly, configure =>
+            {
+                configure.GeneratorSettings.Title = "WingsOn.Api";
+            });
         }
     }
 }

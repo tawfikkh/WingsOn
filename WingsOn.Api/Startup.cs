@@ -1,10 +1,8 @@
-﻿using System.IO;
-using System.Reflection;
-using System.Threading.Tasks;
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
 using Owin;
-using System.Web.Http;
+using System.IO;
 using System.Web.Hosting;
+using System.Web.Http;
 
 [assembly: OwinStartup(typeof(WingsOn.Api.Startup))]
 
@@ -16,29 +14,34 @@ namespace WingsOn.Api
         {
             HttpConfiguration config = new HttpConfiguration();
 
+            SwaggerConfig.Register(appBuilder);
             AutofacConfig.Register(config, appBuilder);
-            appBuilder.UseWebApi(config);
-
-            appBuilder.Run(async context =>
-            {
-                context.Response.ContentType = "text/html";
-
-                var filePath = Path.Combine(HostingEnvironment.ApplicationPhysicalPath, "ascii.txt");
-
-                string asciiText = null;
-                using (var reader = File.OpenText(filePath))
-                {
-                    asciiText = await reader.ReadToEndAsync();
-                }
-
-                var swaggerLink = "check <a href=\"\\swagger\">/swagger</a> for the api documentation";
-
-                await context.Response.WriteAsync(text: $"<pre>{asciiText}\n\n{swaggerLink}</pre>");
-            });
-
-            WebApiConfig.Register(config);
-            SwaggerConfig.Register(config);
+            WebApiConfig.Register(config, appBuilder);
             AutoMapperConfig.Register();
+
+            appBuilder.Use(async (context, next) =>
+            {
+                if (context.Request.Path.Value == "/")
+                {
+                    context.Response.ContentType = "text/html";
+
+                    var filePath = Path.Combine(HostingEnvironment.ApplicationPhysicalPath, "ascii.txt");
+
+                    string asciiText = null;
+                    using (var reader = File.OpenText(filePath))
+                    {
+                        asciiText = await reader.ReadToEndAsync();
+                    }
+
+                    var swaggerLink = "check <a href=\"/swagger\">/swagger</a> for the api documentation";
+
+                    await context.Response.WriteAsync(text: $"<pre>{asciiText}\n\n{swaggerLink}</pre>");
+                }
+                else
+                {
+                    await next();
+                }
+            });
 
             config.EnsureInitialized();
         }

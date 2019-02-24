@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WingsOn.Api.DTOs.Response
 {
-    public class PersonDto
+    public class PersonDtoRes
     {
         public int Id { get; set; }
 
@@ -11,8 +11,8 @@ namespace WingsOn.Api.DTOs.Response
 
         public DateTime DateBirth { get; set; }
 
-        [EnumDataType(typeof(GenderTypeDto))]
-        public GenderTypeDto Gender { get; set; }
+        [EnumDataType(typeof(GenderTypeDtoRes))]
+        public GenderTypeDtoRes Gender { get; set; }
 
         public string Address { get; set; }
 

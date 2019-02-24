@@ -13,17 +13,17 @@ namespace WingsOn.Dal
 
         protected List<T> Repository;
 
-        public IEnumerable<T> GetAll()
+        public virtual IEnumerable<T> GetAll()
         {
             return Repository;
         }
 
-        public T Get(int id)
+        public virtual T Get(int id)
         {
             return GetAll().SingleOrDefault(a => a.Id == id);
         }
 
-        public void Save(T element)
+        public virtual void Save(T element)
         {
             if (element == null)
             {

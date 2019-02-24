@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using WingsOn.Api.DTOs.Request;
 using WingsOn.Api.DTOs.Response;
 using WingsOn.Domain;
 
@@ -8,13 +9,15 @@ namespace WingsOn.Api
     {
         public static void Register()
         {
-            Mapper.Initialize(cfg => {
-                cfg.CreateMap<Airline, AirlineDto>();
-                cfg.CreateMap<Airport, AirportDto>();
-                cfg.CreateMap<Booking, BookingDto>();
-                cfg.CreateMap<Flight, FlightDto>();
-                cfg.CreateMap<GenderType, GenderTypeDto>();
-                cfg.CreateMap<Person, PersonDto>();
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<Airline, AirlineDtoRes>();
+                cfg.CreateMap<Airport, AirportDtoRes>();
+                cfg.CreateMap<Booking, BookingDtoRes>();
+                cfg.CreateMap<Flight, FlightDtoRes>();
+                cfg.CreateMap<GenderType, GenderTypeDtoRes>();
+                cfg.CreateMap<Person, PersonDtoRes>();
+                cfg.CreateMap<BookingPersonDtoReq, Person>();
             });
         }
     }

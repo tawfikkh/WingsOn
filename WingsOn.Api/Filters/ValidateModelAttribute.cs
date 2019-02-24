@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
-namespace WingsOn.Api.Attributes
+namespace WingsOn.Api.Filters
 {
     public class ValidateModelAttribute : ActionFilterAttribute
     {

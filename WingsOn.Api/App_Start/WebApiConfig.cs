@@ -1,11 +1,12 @@
 ﻿using System.Web.Http;
-using WingsOn.Api.Attributes;
+using Owin;
+using WingsOn.Api.Filters;
 
 namespace WingsOn.Api
 {
     public static class WebApiConfig
     {
-        public static void Register(HttpConfiguration config)
+        public static void Register(HttpConfiguration config, IAppBuilder appBuilder)
         {
             // Web API routes
             config.MapHttpAttributeRoutes();
@@ -18,6 +19,8 @@ namespace WingsOn.Api
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            appBuilder.UseWebApi(config);
         }
     }
 }

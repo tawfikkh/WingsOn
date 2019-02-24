@@ -42,6 +42,8 @@
     <Compile Include="AirlineRepository.cs" />
     <Compile Include="AirportRepository.cs" />
     <Compile Include="BookingRepository.cs" />
+    <Compile Include="CustomBookingRepository.cs" />
+    <Compile Include="CustomPersonRepository.cs" />
     <Compile Include="FlightRepository.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="PersonRepository.cs" />
