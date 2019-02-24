@@ -1,35 +1,50 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using WingsOn.Api.DTOs;
+using WingsOn.Api.DTOs.Response;
 using WingsOn.Dal;
 using WingsOn.Domain;
 
 namespace WingsOn.Api.Controllers
 {
-    public class FlightsController : ApiController
+    public class FlightsController : BaseController
     {
-        IRepository<Booking> _repo;
+        private readonly IRepository<Booking> _bookingRepo;
+        private readonly IRepository<Flight> _flightRepo;
 
-        public FlightsController(IRepository<Booking> repo)
+        public FlightsController(IRepository<Booking> bookingRepo, IRepository<Flight> flightRepo)
         {
-            _repo = repo;
+            _bookingRepo = bookingRepo;
+            _flightRepo = flightRepo;
         }
 
-        [Route("{flightNumber}/passengers")]
+        [Route("api/flights/{flightNumber}/passengers")]
         public IHttpActionResult GetFlightPassengers(string flightNumber)
         {
-            var bookings = _repo.GetAll().Where(b => string.Equals(
+            var flight = _flightRepo.GetAll().FirstOrDefault(f => string.Equals(
+                f.Number,
+                flightNumber,
+                StringComparison.OrdinalIgnoreCase)
+                );
+
+            if (flight == null)
+            {
+                return NotFound();
+            }
+
+            var bookings = _bookingRepo.GetAll().Where(b => string.Equals(
                 b.Flight?.Number,
                 flightNumber,
                 StringComparison.OrdinalIgnoreCase)
                 );
 
-            if (bookings == null)
-            {
-                return NotFound();
-            }
+            var passengers = bookings.Select(b => b.Customer);
 
-            return Ok(bookings.Select(b => b.Customer));
+            IEnumerable<PersonDto> response = Mapper.Map<IEnumerable<PersonDto>>(passengers);
+            return Ok(response);
         }
     }
 }
