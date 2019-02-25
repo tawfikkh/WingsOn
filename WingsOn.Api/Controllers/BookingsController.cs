@@ -10,6 +10,7 @@ using WingsOn.Domain;
 
 namespace WingsOn.Api.Controllers
 {
+    [RoutePrefix("api/Bookings")]
     public class BookingsController : BaseController
     {
         private readonly IRepository<Flight> _flightRepository;
@@ -39,7 +40,7 @@ namespace WingsOn.Api.Controllers
                 return NotFound();
             }
 
-            var person = Mapper.Map<Person>(model);
+            var person = Mapper.Map<Person>(model.Person);
             person.Id = 0; // will be auto generate
             _personRepository.Save(person);
 
@@ -57,7 +58,8 @@ namespace WingsOn.Api.Controllers
 
             _bookingRepository.Save(booking);
 
-            return CreatedAtRoute("GetBooking", new { bookingNumber = booking.Number }, booking);
+            var response = Mapper.Map<BookingDtoRes>(booking);
+            return CreatedAtRoute("GetBooking", new { bookingNumber = response.Number }, response);
         }
 
         [HttpGet]

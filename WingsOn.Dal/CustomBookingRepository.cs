@@ -10,7 +10,7 @@ namespace WingsOn.Dal
             // generate new booking number if empty
             if (booking.Number == null)
             {
-                var nextId = Repository.Max(p => int.TryParse(p.Number.Replace("WO.", ""), out int result)
+                var nextId = Repository.Max(p => int.TryParse(p.Number.Replace("WO-", ""), out int result)
                     ? result
                     : 0) + 1;
 

@@ -7,6 +7,7 @@ using WingsOn.Domain;
 
 namespace WingsOn.Api.Controllers
 {
+    [RoutePrefix("api/People")]
     public class PeopleController : BaseController
     {
         private readonly IRepository<Person> _repo;

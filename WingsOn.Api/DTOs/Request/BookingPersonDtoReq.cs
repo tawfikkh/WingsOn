@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using WingsOn.Api.DTOs.Response;
+using WingsOn.Domain;
 
 namespace WingsOn.Api.DTOs.Request
 {
@@ -13,8 +13,8 @@ namespace WingsOn.Api.DTOs.Request
         public DateTime? DateBirth { get; set; }
 
         [Required]
-        [EnumDataType(typeof(GenderTypeDtoRes))]
-        public GenderTypeDtoRes? Gender { get; set; }
+        [EnumDataType(typeof(GenderType))]
+        public GenderType? Gender { get; set; }
 
         [StringLength(500)]
         public string Address { get; set; }

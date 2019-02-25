@@ -15,7 +15,6 @@ namespace WingsOn.Api
                 cfg.CreateMap<Airport, AirportDtoRes>();
                 cfg.CreateMap<Booking, BookingDtoRes>();
                 cfg.CreateMap<Flight, FlightDtoRes>();
-                cfg.CreateMap<GenderType, GenderTypeDtoRes>();
                 cfg.CreateMap<Person, PersonDtoRes>();
                 cfg.CreateMap<BookingPersonDtoReq, Person>();
             });

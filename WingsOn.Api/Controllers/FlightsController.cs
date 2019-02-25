@@ -9,6 +9,7 @@ using WingsOn.Domain;
 
 namespace WingsOn.Api.Controllers
 {
+    [RoutePrefix("api/Flights")]
     public class FlightsController : BaseController
     {
         private readonly IRepository<Booking> _bookingRepo;

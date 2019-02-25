@@ -174,7 +174,6 @@
     <Compile Include="DTOs\Response\AirportDtoRes.cs" />
     <Compile Include="DTOs\Response\BookingDtoRes.cs" />
     <Compile Include="DTOs\Response\FlightDtoRes.cs" />
-    <Compile Include="DTOs\Response\GenderTypeDtoRes.cs" />
     <Compile Include="DTOs\Response\PersonDtoRes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

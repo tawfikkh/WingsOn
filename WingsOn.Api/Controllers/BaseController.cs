@@ -2,7 +2,6 @@
 
 namespace WingsOn.Api.Controllers
 {
-    [RoutePrefix("api/[controller]/{id:int?}")]
     public class BaseController : ApiController
     {
     }
