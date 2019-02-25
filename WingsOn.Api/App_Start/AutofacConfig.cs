@@ -14,11 +14,11 @@ namespace WingsOn.Api
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterType<AirlineRepository>().As<IRepository<Airline>>().InstancePerLifetimeScope();
-            builder.RegisterType<AirportRepository>().As<IRepository<Airport>>().InstancePerLifetimeScope();
-            builder.RegisterType<CustomBookingRepository>().As<IRepository<Booking>>().InstancePerLifetimeScope();
-            builder.RegisterType<FlightRepository>().As<IRepository<Flight>>().InstancePerLifetimeScope();
-            builder.RegisterType<CustomPersonRepository>().As<IRepository<Person>>().InstancePerLifetimeScope();
+            builder.RegisterType<AirlineRepository>().As<IRepository<Airline>>().SingleInstance();
+            builder.RegisterType<AirportRepository>().As<IRepository<Airport>>().SingleInstance();
+            builder.RegisterType<CustomBookingRepository>().As<IRepository<Booking>>().SingleInstance();
+            builder.RegisterType<FlightRepository>().As<IRepository<Flight>>().SingleInstance();
+            builder.RegisterType<CustomPersonRepository>().As<IRepository<Person>>().SingleInstance();
 
             // Register your Web API controllers.
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
