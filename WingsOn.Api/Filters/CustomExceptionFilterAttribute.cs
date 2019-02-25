@@ -1,4 +1,6 @@
-﻿using System.Web.Http.Filters;
+﻿using System.Net;
+using System.Net.Http;
+using System.Web.Http.Filters;
 
 namespace WingsOn.Api.Filters
 {
@@ -6,6 +8,10 @@ namespace WingsOn.Api.Filters
     {
         public override void OnException(HttpActionExecutedContext actionExecutedContext)
         {
+            actionExecutedContext.Response =
+                actionExecutedContext.Request.CreateErrorResponse(HttpStatusCode.InternalServerError,
+                    actionExecutedContext.Exception);
+
             base.OnException(actionExecutedContext);
         }
     }

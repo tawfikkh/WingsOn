@@ -164,6 +164,7 @@
     <Compile Include="DTOs\Request\BookingDtoReq.cs" />
     <Compile Include="DTOs\Request\BookingPersonDtoReq.cs" />
     <Compile Include="DTOs\Request\PersonDtoReq.cs" />
+    <Compile Include="DTOs\Response\ApiError.cs" />
     <Compile Include="Filters\CustomExceptionFilterAttribute.cs" />
     <Compile Include="Filters\ValidateModelAttribute.cs" />
     <Compile Include="Controllers\BaseController.cs" />

@@ -13,6 +13,7 @@ namespace WingsOn.Api
 
             // Web API configuration and services
             config.Filters.Add(new ValidateModelAttribute());
+            config.Filters.Add(new CustomExceptionFilterAttribute());
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
