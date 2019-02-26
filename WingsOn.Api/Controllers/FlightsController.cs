@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using NSwag;
+using NSwag.Annotations;
 using WingsOn.Api.DTOs.Response;
 using WingsOn.Dal;
 using WingsOn.Domain;
@@ -21,8 +23,14 @@ namespace WingsOn.Api.Controllers
             _flightRepo = flightRepo;
         }
 
+        /// <summary>
+        /// get passengers for a specific flight by its number
+        /// </summary>
+        /// <param name="flightNumber">Flight Number</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("{flightNumber}/passengers")]
+        [SwaggerResponse("200", typeof(IEnumerable<PersonDtoRes>))]
         public IHttpActionResult GetFlightPassengers(string flightNumber)
         {
             var flight = _flightRepo.GetAll().FirstOrDefault(f => string.Equals(
@@ -42,7 +50,7 @@ namespace WingsOn.Api.Controllers
                 StringComparison.OrdinalIgnoreCase)
                 );
 
-            var passengers = bookings.Select(b => b.Customer);
+            var passengers = bookings.SelectMany(b => b.Passengers);
 
             IEnumerable<PersonDtoRes> response = Mapper.Map<IEnumerable<PersonDtoRes>>(passengers);
             return Ok(response);

@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
+using NSwag;
 using WingsOn.Api.DTOs.Request;
 using WingsOn.Api.DTOs.Response;
 using WingsOn.Dal;
 using WingsOn.Domain;
-using System.Linq;
-using System.Collections.Generic;
+using NSwag.Annotations;
 
 namespace WingsOn.Api.Controllers
 {
@@ -21,7 +23,11 @@ namespace WingsOn.Api.Controllers
             _bookingRepo = bookingRepo;
         }
 
-        // GET api/<controller>/5
+        /// <summary>
+        /// get person details by his id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IHttpActionResult GetPersonById(int id)
         {
             var person = _personRepo.Get(id);
@@ -33,19 +39,31 @@ namespace WingsOn.Api.Controllers
             return Ok(person);
         }
 
-        [Route("MalePassengers")]
-        public IHttpActionResult GetAllMalePassengers()
+        /// <summary>
+        /// get all people with bookings by gender
+        /// </summary>
+        /// <param name="gender">defaults to Male</param>
+        /// <returns></returns>
+        [Route("Passengers/{gender:int=1}")]
+        [SwaggerResponse("200", typeof(IEnumerable<PersonDtoRes>))]
+        public IHttpActionResult GetAllMalePassengers(GenderType gender)
         {
             var passengers = _bookingRepo
                 .GetAll()
-                .SelectMany(b => b.Passengers.Where(p => p.Gender == GenderType.Male));
+                .SelectMany(b => b.Passengers.Where(p => p.Gender == gender));
 
             var result = Mapper.Map<IEnumerable<PersonDtoRes>>(passengers);
             return Ok(result);
         }
 
-        // PATCH api/<controller>/id
+        /// <summary>
+        /// update a person email address
+        /// </summary>
+        /// <param name="id">Person Id</param>
+        /// <param name="model">Email address field; read from request body, use x-www-form-urlencoded or application/json as Content-Type header</param>
+        /// <returns></returns>
         [HttpPatch]
+        [SwaggerResponse("200", typeof(PersonDtoRes))]
         public IHttpActionResult PatchPersonEmail(int id, [FromBody]PersonDtoReq model)
         {
             var person = _personRepo.Get(id);

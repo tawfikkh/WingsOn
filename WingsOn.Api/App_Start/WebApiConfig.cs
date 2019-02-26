@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using Newtonsoft.Json.Serialization;
 using Owin;
 using WingsOn.Api.Filters;
 
@@ -12,6 +13,7 @@ namespace WingsOn.Api
             config.MapHttpAttributeRoutes();
 
             // Web API configuration and services
+            config.Filters.Add(new AuditFilterAttribute());
             config.Filters.Add(new ValidateModelAttribute());
             config.Filters.Add(new CustomExceptionFilterAttribute());
 
@@ -20,6 +22,9 @@ namespace WingsOn.Api
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            // send property names as camel case
+            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
             appBuilder.UseWebApi(config);
         }

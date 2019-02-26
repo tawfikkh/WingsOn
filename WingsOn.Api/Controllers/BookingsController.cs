@@ -1,10 +1,13 @@
-﻿using System;
+﻿using AutoMapper;
+using NSwag.Annotations;
+using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Web.Http;
-using AutoMapper;
 using WingsOn.Api.DTOs.Request;
 using WingsOn.Api.DTOs.Response;
+using WingsOn.Api.Helpers;
 using WingsOn.Dal;
 using WingsOn.Domain;
 
@@ -27,7 +30,13 @@ namespace WingsOn.Api.Controllers
             _bookingRepository = bookingRepository;
         }
 
-        // POST api/<controller>
+        /// <summary>
+        /// create new person and booking on an existing flight number
+        /// the created person is added as passenger as well
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [SwaggerResponse("201", typeof(BookingDtoRes))]
         public IHttpActionResult PostCreateBookingForNewCustomer([FromBody] BookingDtoReq model)
         {
             var flight = _flightRepository.GetAll().FirstOrDefault(f => string.Equals(
@@ -37,7 +46,8 @@ namespace WingsOn.Api.Controllers
 
             if (flight == null)
             {
-                return NotFound();
+                ModelState.AddModelError(nameof(model.BookingDetails.FlightNumber), "No flights with supplied flight number could be found");
+                return Content(HttpStatusCode.BadRequest, ValidationHelper.GenerateApiError(ModelState));
             }
 
             var person = Mapper.Map<Person>(model.Person);
@@ -62,8 +72,14 @@ namespace WingsOn.Api.Controllers
             return CreatedAtRoute("GetBooking", new { bookingNumber = response.Number }, response);
         }
 
+        /// <summary>
+        /// get specific booking details by its number
+        /// </summary>
+        /// <param name="bookingNumber">Booking Number</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("{bookingNumber}", Name = "GetBooking")]
+        [SwaggerResponse("200", typeof(BookingDtoRes))]
         public IHttpActionResult GetBooking(string bookingNumber)
         {
             var booking = _bookingRepository.GetAll().FirstOrDefault(b => string.Equals(
